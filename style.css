@@ -1,0 +1,366 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500&family=Barlow+Semi+Condensed:wght@500;600;700&family=Share+Tech+Mono&display=swap');
+
+/* ---------- Палитра: чертёжный лист на миллиметровке ---------- */
+:root {
+  --paper: #f4f8f9;
+  --grid-bg: #e3ecef;
+  --grid-line: rgba(95, 140, 158, 0.22);
+  --ink: #12303d;
+  --ink-soft: #4f6a76;
+  --rule: #9fb6c0;
+  --lcd: #c7d5b0;
+  --lcd-ink: #1d2a12;
+  --flag: #c94a0a;
+  --pad: clamp(16px, 4vw, 36px);
+
+  --font-head: 'Barlow Semi Condensed', 'Arial Narrow', system-ui, sans-serif;
+  --font-body: 'Barlow', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-lcd: 'Share Tech Mono', ui-monospace, Consolas, 'Courier New', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: clamp(8px, 3vw, 40px);
+  padding-left: max(clamp(8px, 3vw, 40px), env(safe-area-inset-left));
+  padding-right: max(clamp(8px, 3vw, 40px), env(safe-area-inset-right));
+  padding-bottom: max(clamp(8px, 3vw, 40px), env(safe-area-inset-bottom));
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.45;
+  color: var(--ink);
+  background-color: var(--grid-bg);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 20px 20px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ---------- Лист (рамка чертежа) ---------- */
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: var(--pad);
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  outline: 1px solid var(--ink);
+  outline-offset: -7px;
+  box-shadow: 0 10px 30px rgba(18, 48, 61, 0.18);
+}
+
+/* ---------- Шапка: заголовок + линейка ---------- */
+header { margin-bottom: 26px; }
+
+h1 {
+  margin: 0;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: clamp(1.7rem, 5.4vw, 2.7rem);
+  line-height: 1.1;
+  letter-spacing: -0.005em;
+}
+
+.subtitle {
+  margin: 8px 0 0;
+  max-width: 60ch;
+  color: var(--ink-soft);
+}
+
+header::after {
+  content: "";
+  display: block;
+  height: 12px;
+  margin-top: 16px;
+  border-bottom: 1.5px solid var(--ink);
+  background-image:
+    repeating-linear-gradient(90deg, var(--ink) 0 1px, transparent 1px 8px),
+    repeating-linear-gradient(90deg, var(--ink) 0 1px, transparent 1px 40px);
+  background-size: 100% 6px, 100% 12px;
+  background-position: left bottom;
+  background-repeat: no-repeat;
+}
+
+/* ---------- Раскладка ---------- */
+main {
+  display: grid;
+  gap: 26px 44px;
+  grid-template-columns: 1fr;
+  grid-template-areas: "res" "a1" "ops" "a2" "conv" "extra";
+}
+
+main > .result-section    { grid-area: res; }
+main > .input-section:nth-of-type(1) { grid-area: a1; }
+main > .operations        { grid-area: ops; }
+main > .input-section:nth-of-type(3) { grid-area: a2; }
+main > .converter-section { grid-area: conv; }
+main > .extra-functions   { grid-area: extra; }
+
+main > section { min-width: 0; }
+
+@media (min-width: 860px) {
+  main {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    grid-template-areas:
+      "a1  res"
+      "ops res"
+      "a2  conv"
+      "a2  extra";
+    align-items: start;
+  }
+}
+
+/* Заголовки секций: размерная линия */
+h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 12px;
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 1.1rem;
+  line-height: 1.2;
+}
+h2::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+
+/* ---------- Поля ввода ---------- */
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input::placeholder { color: #9bb0b9; }
+
+.angle-input {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.35fr;
+  gap: 8px;
+}
+
+.input-group {
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+  min-height: 56px;
+  background: #fff;
+  border: 1.5px solid var(--ink);
+  border-radius: 4px;
+}
+
+.input-group input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  padding: 10px 2px 10px 10px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-head);
+  font-weight: 500;
+  font-size: clamp(1.15rem, 5vw, 1.5rem);
+  font-variant-numeric: tabular-nums;
+}
+
+.input-group label {
+  display: flex;
+  align-items: center;
+  padding: 0 10px 0 2px;
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: clamp(1.15rem, 5vw, 1.5rem);
+  color: var(--flag);
+  user-select: none;
+}
+
+.input-group:focus-within,
+.number-input input:focus,
+.converter-input input:focus {
+  outline: 3px solid var(--flag);
+  outline-offset: 2px;
+}
+
+.number-input {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--rule);
+}
+.number-input label,
+.converter-input label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+}
+
+.number-input input,
+.converter-input input {
+  width: 100%;
+  min-width: 0;
+  min-height: 56px;
+  padding: 10px 12px;
+  background: #fff;
+  border: 1.5px solid var(--ink);
+  border-radius: 4px;
+  color: var(--ink);
+  font-family: var(--font-head);
+  font-weight: 500;
+  font-size: 1.3rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Кнопки ---------- */
+button {
+  font-family: var(--font-head);
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background-color 0.12s, color 0.12s, transform 0.06s;
+}
+button:active { transform: translateY(1px); }
+button:focus-visible {
+  outline: 3px solid var(--flag);
+  outline-offset: 3px;
+}
+
+.operations {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+@media (min-width: 540px) {
+  .operations { grid-template-columns: repeat(4, 1fr); }
+}
+
+.op-btn {
+  min-height: 56px;
+  padding: 0 6px;
+  background: var(--ink);
+  color: #fff;
+  border: 1.5px solid var(--ink);
+  border-radius: 4px;
+  font-size: 1.3rem;
+  white-space: nowrap;
+}
+
+.converter-input {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0 10px;
+  align-items: stretch;
+}
+.converter-input label { grid-column: 1 / -1; }
+
+.converter-input button {
+  min-height: 56px;
+  padding: 0 20px;
+  background: var(--flag);
+  color: #fff;
+  border: 1.5px solid var(--flag);
+  border-radius: 4px;
+  font-size: 1.15rem;
+  white-space: nowrap;
+}
+
+.extra-functions {
+  display: grid;
+  gap: 10px;
+}
+.func-btn {
+  width: 100%;
+  min-height: 52px;
+  padding: 12px 16px;
+  background: transparent;
+  color: var(--ink);
+  border: 1.5px solid var(--ink);
+  border-radius: 4px;
+  font-size: 1.05rem;
+  text-align: left;
+}
+
+@media (hover: hover) {
+  .op-btn:hover { background: var(--flag); border-color: var(--flag); }
+  .converter-input button:hover { background: var(--ink); border-color: var(--ink); }
+  .func-btn:hover { background: var(--ink); color: #fff; }
+}
+
+/* ---------- Результат: дисплей прибора ---------- */
+.result {
+  padding: 16px 18px;
+  background: var(--lcd);
+  color: var(--lcd-ink);
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  box-shadow: inset 0 3px 8px rgba(18, 48, 61, 0.35);
+  font-family: var(--font-lcd);
+}
+
+.result-dms {
+  font-size: clamp(1.4rem, 7.4vw, 2.5rem);
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  word-spacing: 0.18em;
+  font-variant-numeric: tabular-nums;
+}
+
+.result-decimal {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(29, 42, 18, 0.55);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+}
+#resultDecimal {
+  font-family: var(--font-lcd);
+  font-size: 1.1rem;
+}
+
+/* На телефоне результат закреплён сверху, чтобы всегда был виден */
+@media (max-width: 859px) {
+  main > .result-section {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    margin: 0 calc(var(--pad) * -1);
+    padding: 10px var(--pad) 12px;
+    background: var(--paper);
+    border-bottom: 1.5px solid var(--ink);
+  }
+  .result-section h2 { margin-bottom: 8px; font-size: 1rem; }
+  .result { padding: 10px 14px; }
+  .result-decimal { margin-top: 8px; padding-top: 8px; font-size: 0.88rem; }
+  #resultDecimal { font-size: 1rem; }
+}
+
+/* ---------- Подвал: штамп чертежа ---------- */
+footer {
+  margin-top: 32px;
+  padding-top: 12px;
+  border-top: 2px solid var(--ink);
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+footer p { margin: 0; }
+
+/* ---------- Доступность ---------- */
+@media (prefers-reduced-motion: reduce) {
+  button { transition: none; }
+  button:active { transform: none; }
+}
