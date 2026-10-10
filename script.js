@@ -89,7 +89,8 @@ function convertToDMS() {
 }
 
 // Приводит угол 1 к диапазону 0–360° и записывает обратно в поля
-function normalize() {
+// Имя не «normalize»: в inline-обработчиках onclick оно перекрывается document.normalize()
+function normalizeAngle() {
   try {
     let a = readAngle(1);
     a = ((a % 360) + 360) % 360;
@@ -110,6 +111,13 @@ function clearAll() {
   $('resultSec').textContent = '0.000';
   $('resultDecimal').textContent = '0.000000';
 }
+
+// Кнопка «Нормализовать» из старого index.html (onclick="normalize()") не сработает,
+// поэтому подключаем её здесь. Если в HTML уже стоит normalizeAngle(), ничего не меняется.
+document.querySelectorAll('[onclick="normalize()"]').forEach((btn) => {
+  btn.removeAttribute('onclick');
+  btn.addEventListener('click', normalizeAngle);
+});
 
 // Enter в поле конвертера = нажать «→ DMS»
 $('decimalInput').addEventListener('keydown', (e) => {
