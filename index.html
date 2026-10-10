@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Геодезический калькулятор</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📐 Геодезический калькулятор</h1>
+            <p class="subtitle">Калькулятор для работы с углами в формате градусы-минуты-секунды</p>
+        </header>
+
+        <main>
+            <!-- Ввод первого угла -->
+            <section class="input-section">
+                <h2>Угол 1</h2>
+                <div class="angle-input">
+                    <div class="input-group">
+                        <input type="number" id="deg1" placeholder="0" min="-360" max="360">
+                        <label>°</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="number" id="min1" placeholder="0" min="0" max="59">
+                        <label>'</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="number" id="sec1" placeholder="0" min="0" max="59.999" step="0.001">
+                        <label>"</label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Операции -->
+            <section class="operations">
+                <button class="op-btn" onclick="calculate('add')">+</button>
+                <button class="op-btn" onclick="calculate('subtract')">−</button>
+                <button class="op-btn" onclick="calculate('multiply')">× число</button>
+                <button class="op-btn" onclick="calculate('divide')">÷ число</button>
+            </section>
+
+            <!-- Ввод второго угла или числа -->
+            <section class="input-section">
+                <h2>Угол 2 / Число</h2>
+                <div class="angle-input">
+                    <div class="input-group">
+                        <input type="number" id="deg2" placeholder="0" min="-360" max="360">
+                        <label>°</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="number" id="min2" placeholder="0" min="0" max="59">
+                        <label>'</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="number" id="sec2" placeholder="0" min="0" max="59.999" step="0.001">
+                        <label>"</label>
+                    </div>
+                </div>
+                <div class="number-input">
+                    <label>Или число для умножения/деления:</label>
+                    <input type="number" id="number" placeholder="1" step="0.001">
+                </div>
+            </section>
+
+            <!-- Результат -->
+            <section class="result-section">
+                <h2>Результат</h2>
+                <div class="result" id="result">
+                    <div class="result-dms">
+                        <span id="resultDeg">0</span>°
+                        <span id="resultMin">0</span>'
+                        <span id="resultSec">0.000</span>"
+                    </div>
+                    <div class="result-decimal">
+                        Десятичные градусы: <span id="resultDecimal">0.000000</span>°
+                    </div>
+                </div>
+            </section>
+
+            <!-- Конвертер -->
+            <section class="converter-section">
+                <h2>Конвертер</h2>
+                <div class="converter">
+                    <div class="converter-input">
+                        <label>Десятичные градусы:</label>
+                        <input type="number" id="decimalInput" placeholder="0.0" step="0.000001">
+                        <button onclick="convertToDMS()">→ DMS</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Дополнительные функции -->
+            <section class="extra-functions">
+                <button class="func-btn" onclick="normalize()">Нормализовать угол 1 (0-360°)</button>
+                <button class="func-btn" onclick="clearAll()">Очистить всё</button>
+            </section>
+        </main>
+
+        <footer>
+            <p>Разработано для геодезистов</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
