@@ -112,12 +112,24 @@ function clearAll() {
   $('resultDecimal').textContent = '0.000000';
 }
 
-// Кнопка «Нормализовать» из старого index.html (onclick="normalize()") не сработает,
-// поэтому подключаем её здесь. Если в HTML уже стоит normalizeAngle(), ничего не меняется.
+// Все кнопки подключаются здесь через data-action (без inline onclick)
+document.querySelectorAll('[data-action]').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    const a = btn.dataset.action;
+    if (a === 'normalize') normalizeAngle();
+    else if (a === 'convert') convertToDMS();
+    else if (a === 'clear') clearAll();
+    else calculate(a);
+  });
+});
+
+// Запасной вариант для старого index.html с onclick="normalize()"
 document.querySelectorAll('[onclick="normalize()"]').forEach((btn) => {
   btn.removeAttribute('onclick');
   btn.addEventListener('click', normalizeAngle);
 });
+
+console.log('Геодезический калькулятор: script.js v3 загружен');
 
 // Enter в поле конвертера = нажать «→ DMS»
 $('decimalInput').addEventListener('keydown', (e) => {
